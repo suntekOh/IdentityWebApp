@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220826165344_Identity schema changed")]
+    [Migration("20220826202530_Identity schema changed")]
     partial class Identityschemachanged
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,6 +42,22 @@ namespace DataAccess.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("RowCreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowCreatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RowLastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowLastUpdatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
@@ -52,7 +68,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,6 +85,22 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("RowCreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowCreatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RowLastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowLastUpdatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
@@ -76,7 +108,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,6 +151,22 @@ namespace DataAccess.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RowCreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowCreatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RowLastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowLastUpdatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -142,7 +190,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,6 +204,22 @@ namespace DataAccess.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RowCreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowCreatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RowLastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowLastUpdatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -166,7 +230,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -176,6 +240,22 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RowCreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowCreatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RowLastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowLastUpdatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -187,13 +267,29 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserRole", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RowCreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowCreatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RowLastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowLastUpdatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -202,7 +298,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserToken", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserToken", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -213,6 +309,22 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("RowCreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowCreatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RowLastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("RowLastUpdatedDateTimeUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
@@ -221,9 +333,9 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRoleClaim", b =>
                 {
-                    b.HasOne("Common.Models.Identity.ApplicationRole", "Role")
+                    b.HasOne("DataAccess.Entities.Identity.ApplicationRole", "Role")
                         .WithMany("RoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -232,9 +344,9 @@ namespace DataAccess.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserClaim", b =>
                 {
-                    b.HasOne("Common.Models.Identity.ApplicationUser", "User")
+                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,9 +355,9 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserLogin", b =>
                 {
-                    b.HasOne("Common.Models.Identity.ApplicationUser", "User")
+                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -254,15 +366,15 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserRole", b =>
                 {
-                    b.HasOne("Common.Models.Identity.ApplicationRole", "Role")
+                    b.HasOne("DataAccess.Entities.Identity.ApplicationRole", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Common.Models.Identity.ApplicationUser", "User")
+                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -273,9 +385,9 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUserToken", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserToken", b =>
                 {
-                    b.HasOne("Common.Models.Identity.ApplicationUser", "User")
+                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -284,14 +396,14 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRole", b =>
                 {
                     b.Navigation("RoleClaims");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Common.Models.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("Claims");
 
