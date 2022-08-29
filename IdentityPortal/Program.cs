@@ -61,6 +61,17 @@ try
         options.SlidingExpiration = true;
     });
 
+    var configRoot = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .Build();
+
+    var configMgr = new ConfigurationManager();
+    configMgr.AddConfiguration(configRoot);
+
+
+    builder.Services.AddSmtpSettings(configMgr);
+
     builder.Host.UseNLog();
 
     var app = builder.Build();
