@@ -3,21 +3,22 @@ using System.Collections.Generic;
 
 namespace DataAccess.Entities.Identity;
 
-public partial class SecPortal
+public partial class SecPortalModule
 {
-    public SecPortal()
+    public SecPortalModule()
     {
-        SecPortalModules = new HashSet<SecPortalModule>();
+        SecPortalModuleAccesses = new HashSet<SecPortalModuleAccess>();
     }
 
+    public int PortalModuleId { get; set; }
     public int PortalId { get; set; }
-    public string PortalName { get; set; } = null!;
+    public string? PortalModuleName { get; set; }
     public string? RowCreatedBy { get; set; }
     public DateTimeOffset? RowCreatedDateTimeUtc { get; set; }
     public string? RowLastUpdatedBy { get; set; }
     public DateTimeOffset? RowLastUpdatedDateTimeUtc { get; set; }
     public byte[] RowVersion { get; set; } = null!;
 
-    public virtual ICollection<SecPortalModule> SecPortalModules { get; set; }
+    public virtual SecPortal Portal { get; set; } = null!;
+    public virtual ICollection<SecPortalModuleAccess> SecPortalModuleAccesses { get; set; }
 }
-

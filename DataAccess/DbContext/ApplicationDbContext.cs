@@ -31,9 +31,9 @@ public class ApplicationDbContext
     public virtual DbSet<UserRole> ApplicationUserRoles { get; set; } = null!;
     public virtual DbSet<UserToken> ApplicationUserTokens { get; set; } = null!;
     public virtual DbSet<SecPortal> SecPortals { get; set; } = null!;
+    public virtual DbSet<SecPortalModule> SecPortalModules { get; set; } = null!;
     public virtual DbSet<SecPortalModuleAccess> SecPortalModuleAccesses { get; set; } = null!;
     public virtual DbSet<SecPortalModuleAccessPermission> SecPortalModuleAccessPermissions { get; set; } = null!;
-
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -72,12 +72,9 @@ public class ApplicationDbContext
 
             entity.Property(e => e.RowCreatedBy)
                 .HasMaxLength(250)
-                .IsUnicode(false)
-                .HasDefaultValueSql("(suser_sname())");
+                .IsUnicode(false);
 
-            entity.Property(e => e.RowCreatedDateTimeUtc)
-                .HasColumnName("RowCreatedDateTimeUTC")
-                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.RowCreatedDateTimeUtc).HasColumnName("RowCreatedDateTimeUTC");
 
             entity.Property(e => e.RowLastUpdatedBy)
                 .HasMaxLength(250)
@@ -198,11 +195,13 @@ public class ApplicationDbContext
                 .IsConcurrencyToken();
         });
 
-        modelBuilder.Entity<SecPortalModuleAccess>(entity =>
+        modelBuilder.Entity<SecPortalModule>(entity =>
         {
-            entity.HasKey(e => e.PortalModuleAccessId);
+            entity.HasKey(e => e.PortalModuleId);
 
-            entity.ToTable("SecPortalModuleAccess");
+            entity.ToTable("SecPortalModule");
+
+            entity.Property(e => e.PortalModuleName).HasMaxLength(300);
 
             entity.Property(e => e.RowCreatedBy)
                 .HasMaxLength(250)
@@ -221,10 +220,41 @@ public class ApplicationDbContext
                 .IsConcurrencyToken();
 
             entity.HasOne(d => d.Portal)
-                .WithMany(p => p.SecPortalModuleAccesses)
+                .WithMany(p => p.SecPortalModules)
                 .HasForeignKey(d => d.PortalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SecPortalModuleAccess_SecPortal");
+                .HasConstraintName("FK_SecPortalModule_CommonPortal");
+        });
+
+        modelBuilder.Entity<SecPortalModuleAccess>(entity =>
+        {
+            entity.HasKey(e => e.PortalModuleAccessId);
+
+            entity.ToTable("SecPortalModuleAccess");
+
+            entity.Property(e => e.PortalModuleAccessName).HasMaxLength(2000);
+
+            entity.Property(e => e.RowCreatedBy)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+
+            entity.Property(e => e.RowCreatedDateTimeUtc).HasColumnName("RowCreatedDateTimeUTC");
+
+            entity.Property(e => e.RowLastUpdatedBy)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+
+            entity.Property(e => e.RowLastUpdatedDateTimeUtc).HasColumnName("RowLastUpdatedDateTimeUTC");
+
+            entity.Property(e => e.RowVersion)
+                .IsRowVersion()
+                .IsConcurrencyToken();
+
+            entity.HasOne(d => d.PortalModule)
+                .WithMany(p => p.SecPortalModuleAccesses)
+                .HasForeignKey(d => d.PortalModuleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SecPortalModuleAccess_CommonPortalModule");
         });
 
         modelBuilder.Entity<SecPortalModuleAccessPermission>(entity =>
@@ -255,7 +285,7 @@ public class ApplicationDbContext
                 .IsRowVersion()
                 .IsConcurrencyToken();
 
-            entity.HasOne(d => d.SecPortalModuleAccess)
+            entity.HasOne(d => d.PortalModuleAccess)
                 .WithMany(p => p.SecPortalModuleAccessPermissions)
                 .HasForeignKey(d => d.PortalModuleAccessId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
