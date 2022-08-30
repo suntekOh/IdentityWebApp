@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 using NLog;
 using Business.Extensions;
+using Business.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
@@ -61,6 +64,26 @@ try
         options.SlidingExpiration = true;
     });
 
+    builder.Services.AddSingleton<IAuthorizationHandler, PageAccessHandler>();
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("PageAccess", policy =>
+            policy.Requirements.Add(new PageAccessRequirement()));
+    });
+
+    builder.Services.AddControllersWithViews(config =>
+    {
+        config.Filters.Add(new AuthorizeFilter("PageAccess"));
+    });
+
+    builder.Services.AddRazorPages(options =>
+    {
+        options.Conventions.AllowAnonymousToFolder("/");
+        options.Conventions.AllowAnonymousToAreaFolder("Identity", "/Account");
+    });
+
+
     var configRoot = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -97,8 +120,11 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
-
+    
     app.MapRazorPages();
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 
     app.Run();
 }
