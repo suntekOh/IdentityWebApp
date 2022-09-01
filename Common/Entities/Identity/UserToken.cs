@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Entities.Identity;
+namespace Common.Entities.Identity;
 
-public class UserLogin : IdentityUserLogin<Guid>
+public class UserToken : IdentityUserToken<Guid>
 {
     public string? RowCreatedBy { get; set; }
     public DateTimeOffset? RowCreatedDateTimeUtc { get; set; }

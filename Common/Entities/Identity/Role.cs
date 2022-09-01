@@ -7,7 +7,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 
 
-namespace DataAccess.Entities.Identity;
+namespace Common.Entities.Identity;
 
 public class Role : IdentityRole<Guid>
 {

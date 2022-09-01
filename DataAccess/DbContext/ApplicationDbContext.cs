@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccess.Entities.Identity;
+using Common.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +24,7 @@ public class ApplicationDbContext
 
     public virtual DbSet<Role> ApplicationRoles { get; set; } = null!;
     public virtual DbSet<RoleClaim> ApplicationRoleClaims { get; set; } = null!;
-    public virtual DbSet<RolesSecPortalModuleAccess> AspNetRolesSecPortalModuleAccesses { get; set; } = null!;
+    public virtual DbSet<RolesSecPortalModuleAccess> RolesSecPortalModuleAccesses { get; set; } = null!;
     public virtual DbSet<User> ApplicationUsers { get; set; } = null!;
     public virtual DbSet<UserClaim> ApplicationUserClaims { get; set; } = null!;
     public virtual DbSet<UserLogin> ApplicationUserLogins { get; set; } = null!;
@@ -42,7 +42,7 @@ public class ApplicationDbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
             entity.Property(e => e.Name).HasMaxLength(256);
 

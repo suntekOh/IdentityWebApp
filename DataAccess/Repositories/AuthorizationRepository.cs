@@ -11,7 +11,7 @@ namespace DataAccess.Repositories;
 
 public interface IAuthorizationRepository
 {
-    Task<bool> PermittedToAccess(Guid userId, string routePath, CancellationToken canToken);
+    Task<bool> AccessibleToRoutePathAsync(Guid userId, string? routePath, CancellationToken canToken);
 }
 
 public class AuthorizationRepository : IAuthorizationRepository
@@ -22,12 +22,17 @@ public class AuthorizationRepository : IAuthorizationRepository
         _dbContext = dbContext;
     }
 
-    public Task<bool> PermittedToAccess(Guid userId, string routePath, CancellationToken canToken)
+    public async Task<bool> AccessibleToRoutePathAsync(Guid userId, string? routePath, CancellationToken canToken)
     {
-        //from t1 in _dbContext.SecPortalModuleAccessPermissions
-        //join t2 in _dbContext.AspNetRolesSecPortalModuleAccesses on t1.PortalModuleAccessId equals t2.PortalModuleAccessId
-        //where t1.RoutingPath.Equals(routePath)
+        canToken.ThrowIfCancellationRequested();
+        var query =
+            from t1 in _dbContext.Users
+            join t2 in _dbContext.UserRoles on t1.Id equals t2.UserId
+            join t3 in _dbContext.RolesSecPortalModuleAccesses on t2.RoleId equals t3.RoleId
+            join t4 in _dbContext.SecPortalModuleAccessPermissions on t3.PortalModuleAccessId equals t4.PortalModuleAccessId
+            where t1.Id.Equals(userId) && t4.RoutingPath.Equals(routePath)
+            select t1;
 
-        throw new NotImplementedException();
+        return await query.AnyAsync(canToken);
     }
 }

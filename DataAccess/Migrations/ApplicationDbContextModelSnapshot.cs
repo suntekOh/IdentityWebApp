@@ -22,7 +22,7 @@ namespace DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +106,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -188,7 +188,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,7 +228,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -265,7 +265,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserRole", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -296,7 +296,7 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserToken", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserToken", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -331,9 +331,9 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationRoleClaim", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Identity.ApplicationRole", "Role")
+                    b.HasOne("Common.Entities.Identity.ApplicationRole", "Role")
                         .WithMany("RoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -342,9 +342,9 @@ namespace DataAccess.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserClaim", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
+                    b.HasOne("Common.Entities.Identity.ApplicationUser", "User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -353,9 +353,9 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserLogin", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
+                    b.HasOne("Common.Entities.Identity.ApplicationUser", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -364,15 +364,15 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserRole", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Identity.ApplicationRole", "Role")
+                    b.HasOne("Common.Entities.Identity.ApplicationRole", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
+                    b.HasOne("Common.Entities.Identity.ApplicationUser", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -383,9 +383,9 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUserToken", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUserToken", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Identity.ApplicationUser", "User")
+                    b.HasOne("Common.Entities.Identity.ApplicationUser", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -394,14 +394,14 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationRole", b =>
                 {
                     b.Navigation("RoleClaims");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("Common.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("Claims");
 

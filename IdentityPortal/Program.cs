@@ -1,4 +1,4 @@
-using DataAccess.Entities.Identity;
+using Common.Entities.Identity;
 using DataAccess.DbContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +8,12 @@ using Business.Extensions;
 using Business.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Business.UserManagement;
+using Common.Models;
+using static System.Net.Mime.MediaTypeNames;
+using Business.EmailSender;
+using IdentityPortal.Helper;
+using DataAccess.Repositories;
 
 Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
@@ -20,16 +26,10 @@ try
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(connectionString));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-    //builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    //        .AddEntityFrameworkStores<ApplicationDbContext>();
-
     builder.Services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultUI()
             .AddDefaultTokenProviders();
-
-    builder.Services.AddRazorPages();
 
     builder.Services.Configure<IdentityOptions>(options =>
     {
@@ -64,7 +64,10 @@ try
         options.SlidingExpiration = true;
     });
 
-    builder.Services.AddSingleton<IAuthorizationHandler, PageAccessHandler>();
+    builder.Services.AddScoped<IAuthorizationHandler, PageAccessHandler>();
+    builder.Services.AddScoped<ICustomUserManager, CustomUserManager>();
+    builder.Services.AddScoped<IAuthorizationRepository, AuthorizationRepository>();
+
 
     builder.Services.AddAuthorization(options =>
     {
@@ -83,21 +86,13 @@ try
         options.Conventions.AllowAnonymousToAreaFolder("Identity", "/Account");
     });
 
-
-    var configRoot = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        .Build();
-
-    var configMgr = new ConfigurationManager();
-    configMgr.AddConfiguration(configRoot);
-
-
-    builder.Services.AddSmtpSettings(configMgr);
+    builder.Services.AddSmtpSettings(builder.Configuration);
 
     builder.Host.UseNLog();
 
     var app = builder.Build();
+
+    await AddUserRoleManager.Run(builder);
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())

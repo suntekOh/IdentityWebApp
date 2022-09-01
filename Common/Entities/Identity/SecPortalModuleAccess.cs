@@ -1,8 +1,8 @@
-﻿using DataAccess.Entities.Identity;
+﻿using Common.Entities.Identity;
 using System;
 using System.Collections.Generic;
 
-namespace DataAccess.Entities.Identity;
+namespace Common.Entities.Identity;
 
 public partial class SecPortalModuleAccess
 {

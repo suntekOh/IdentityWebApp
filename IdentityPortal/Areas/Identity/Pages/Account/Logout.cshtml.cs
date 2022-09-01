@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using DataAccess.Entities.Identity;
+using Common.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

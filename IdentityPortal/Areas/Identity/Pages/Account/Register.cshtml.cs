@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Business.EmailSender;
 using Common.Models.EmailSender;
-using DataAccess.Entities.Identity;
+using Common.Entities.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -186,8 +186,8 @@ public class RegisterModel : PageModel
         }
         catch
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(DataAccess.Entities.Identity.User)}'. " +
-                $"Ensure that '{nameof(DataAccess.Entities.Identity.User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(Common.Entities.Identity.User)}'. " +
+                $"Ensure that '{nameof(Common.Entities.Identity.User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                 $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccess.Entities.Identity;
+namespace Common.Entities.Identity;
 
 public partial class SecPortalModule
 {

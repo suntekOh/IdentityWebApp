@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Entities.Identity;
+namespace Common.Entities.Identity;
 
 public class User : IdentityUser<Guid>
 {
