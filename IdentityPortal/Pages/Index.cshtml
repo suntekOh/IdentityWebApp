@@ -1,9 +1,15 @@
 ﻿@page
+@using Common.Entities.Identity
+@inject SignInManager<User> SignInManager
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        content
+    </div>
 
-<div class="text-center">
-    content
-</div>
+}
+
