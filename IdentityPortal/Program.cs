@@ -14,6 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 using Business.EmailSender;
 using IdentityPortal.Helper;
 using DataAccess.Repositories;
+using IdentityPortal.Resources;
 
 Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
@@ -87,6 +88,13 @@ try
     });
 
     builder.Services.AddSmtpSettings(builder.Configuration);
+    builder.Services.AddLocalization();
+    builder.Services.AddMvc()
+        .AddDataAnnotationsLocalization(options => {
+            options.DataAnnotationLocalizerProvider = (type, factory) =>
+                factory.Create(typeof(IdentityAppResources));
+        });
+
 
     builder.Host.UseNLog();
 
@@ -107,6 +115,13 @@ try
     }
 
     app.ConfigureExceptionHandler(app.Services.GetRequiredService<ILogger<Program>>());
+
+    var supportedCultures = new[] { "en-ca", "fr-ca" };
+    var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+
+    app.UseRequestLocalization(localizationOptions);
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();

@@ -20,9 +20,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="..\Business\Business.csproj" />
-    <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\Business\IdentityBusiness.csproj" />
+    <ProjectReference Include="..\Common\IdentityCommon.csproj" />
+    <ProjectReference Include="..\DataAccess\IdentityDataAccess.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Resources\IdentityAppResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>IdentityAppResources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\IdentityAppResources.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>IdentityAppResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
 </Project>

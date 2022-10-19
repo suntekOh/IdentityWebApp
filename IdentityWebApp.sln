@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. DataAccess", "2. DataAcc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Business", "3. Business", "{0218B5E9-247A-4F03-B340-E161EB385F71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{C40DC823-937E-4895-A244-40A9E1C860E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityCommon", "Common\IdentityCommon.csproj", "{C40DC823-937E-4895-A244-40A9E1C860E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{91320AAF-67C8-4909-87B1-0D68C8463F62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityDataAccess", "DataAccess\IdentityDataAccess.csproj", "{91320AAF-67C8-4909-87B1-0D68C8463F62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{DE598E94-7618-4E9E-BB65-ABBBE1E90CF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityBusiness", "Business\IdentityBusiness.csproj", "{DE598E94-7618-4E9E-BB65-ABBBE1E90CF0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. DataBase", "0. DataBase", "{45ADED4E-1FDD-40CD-8126-F494E4EC4DBC}"
 EndProject

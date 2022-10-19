@@ -12,6 +12,8 @@ namespace DataAccess.Repositories;
 public interface IAuthorizationRepository
 {
     Task<bool> AccessibleToRoutePathAsync(Guid userId, string? routePath, CancellationToken canToken);
+
+    Task<bool> AccessibleToModuleAsync(Guid userId, int modulId, CancellationToken canToken);
 }
 
 public class AuthorizationRepository : IAuthorizationRepository
@@ -20,6 +22,20 @@ public class AuthorizationRepository : IAuthorizationRepository
     public AuthorizationRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
+    }
+
+    public async Task<bool> AccessibleToModuleAsync(Guid userId, int modulId, CancellationToken canToken)
+    {
+        canToken.ThrowIfCancellationRequested();
+        var query =
+            from t1 in _dbContext.SecPortalModuleAccesses
+            join t2 in _dbContext.RolesSecPortalModuleAccesses on t1.PortalModuleAccessId equals t2.PortalModuleAccessId
+            join t3 in _dbContext.ApplicationUserRoles on t2.RoleId equals t3.RoleId
+            join t4 in _dbContext.ApplicationUsers on t3.UserId equals t4.Id
+            where t1.PortalModuleId.Equals(modulId) && t4.Id.Equals(userId) 
+            select t1;
+
+        return await query.AnyAsync(canToken);
     }
 
     public async Task<bool> AccessibleToRoutePathAsync(Guid userId, string? routePath, CancellationToken canToken)

@@ -13,4 +13,10 @@ public static class Constants
         public const string Administrator = nameof(Administrator);
         public const string Member = nameof(Member);
     }
+
+    public static class Module
+    {
+        public const int MsgBoardManagement = 101;
+        public const int Documents = 102;
+    }
 }
