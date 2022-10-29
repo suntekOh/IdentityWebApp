@@ -119,3 +119,7 @@ html {
 .navbar-light .navbar-nav .dropdown .nav-link:focus, .navbar-light .navbar-nav .dropdown .nav-link:hover {
     color: rgba(0,0,0,.55);
 }
+
+a:hover {
+    text-decoration: underline;
+}

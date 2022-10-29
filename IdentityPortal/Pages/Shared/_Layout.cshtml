@@ -12,6 +12,7 @@
     var signedIn = SignInManager.IsSignedIn(User);
     var userId = signedIn ? (await UserManager.GetUserAsync(User)).Id : Guid.Empty;
     var token = (new CancellationTokenSource()).Token;
+    var requestPath = Context.Request.Path.ToString();
 }
 
 <!DOCTYPE html>
@@ -20,6 +21,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - IdentityPortal</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/IdentityPortal.styles.css" asp-append-version="true" />
@@ -52,13 +56,13 @@
         {
             <div class="container-fluid">
                 <div class="row pointer-for-fiexedMenu">
-                    <div class="ps-0">
-                        <nav id="side-navigation" class="navbar navbar-light padding-y-zero" style="background-color: #e3f2fd;">
+                    <div id="side-navigation" class="ps-0">
+                        <nav class="navbar navbar-light padding-y-zero" style="background-color: #e3f2fd;">
                             <ul class="nav navbar-nav navbar-nav-menu-size">
                                 @if (await AuthorizationRepo.AccessibleToModuleAsync(userId, Constants.Module.MsgBoardManagement, token))
                                 {
                                     <li class="nav-item side-navigation-normal">
-                                        <a class="nav-link ps-2 side-navigation-normal" asp-area="" asp-controller="MessageBoard" asp-action="Index">@Localizer["Message Board Management"]</a>
+                                        <a class="nav-link ps-2 side-navigation-normal c-link" onclick="site.sideMenuItemClicked('MessageBoard', '', @Constants.ModuleAccess.MsgBoardManagement)" data-moduleaccessid="@Constants.ModuleAccess.MsgBoardManagement" href="javascript:void(0);">@Localizer["Message Board Management"]</a>
                                     </li>
                                 }
 
@@ -70,10 +74,10 @@
                                         </a>
                                         <div class="dropdown-menu cborder-0" aria-labelledby="navbarDropdownMenuLink" style="background-color: #e3f2fd;">
                                             <div class="dropdown-item-wrapper side-navigation-normal">
-                                                <a class="dropdown-item side-navigation-normal" asp-area="" asp-controller="Documents" asp-action="Newsletters">@Localizer["Newsletters"]</a>
+                                                <a class="dropdown-item side-navigation-normal c-link" onclick="site.sideMenuItemClicked('Documents', 'Newsletters', @Constants.ModuleAccess.NewLetters)" data-moduleaccessid="@Constants.ModuleAccess.NewLetters" href="javascript:void(0);">@Localizer["Newsletters"]</a>
                                             </div>
                                             <div class="dropdown-item-wrapper side-navigation-normal">
-                                                <a class="dropdown-item side-navigation-normal" asp-area="" asp-controller="Documents" asp-action="StandardForms">@Localizer["Standard Forms"]</a>
+                                                <a class="dropdown-item side-navigation-normal c-link" onclick="site.sideMenuItemClicked('Documents', 'StandardForms', @Constants.ModuleAccess.StandardForms)" data-moduleaccessid="@Constants.ModuleAccess.StandardForms" href="javascript:void(0);">@Localizer["Standard Forms"]</a>
                                             </div>
                                         </div>
                                     </li>
@@ -101,12 +105,9 @@
             &copy; 2022 - IdentityPortal - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
         $(document).ready(function () {
-            site.initialize();
+            site.initialize("@requestPath");
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

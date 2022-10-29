@@ -19,4 +19,11 @@ public static class Constants
         public const int MsgBoardManagement = 101;
         public const int Documents = 102;
     }
+
+    public static class ModuleAccess
+    {
+        public const int MsgBoardManagement = 10101;
+        public const int NewLetters = 10201;
+        public const int StandardForms = 10202;
+    }
 }

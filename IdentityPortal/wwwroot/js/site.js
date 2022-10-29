@@ -1,5 +1,10 @@
 ﻿var site = {
-    showed: false
+    excludedUrlPathForMenuHighlighted : [
+        "/",
+        "/INDEX",
+        "/PRIVACY"
+    ]
+
 };
 
 site.highlightMenu = function (selector) {
@@ -7,38 +12,42 @@ site.highlightMenu = function (selector) {
     $(selector).find(".side-navigation-normal").removeClass("side-navigation-normal").addClass("side-navigation-highlighted");
 }
 
-site.unHighlightSiblingMenus = function (selector) {
-    $(selector).siblings().each(function () {
-        $(this).removeClass("side-navigation-highlighted").addClass("side-navigation-normal");
-        $(this).find(".side-navigation-highlighted").removeClass("side-navigation-highlighted").addClass("side-navigation-normal");
-    });
+
+site.sideMenuItemClicked = function (controller, action, moduleAccessId) {
+    localStorage.setItem('moduleAccessId', moduleAccessId);
+    var redirectTo = action == '' ? `/${controller}` : `/${controller}/${action}`;
+    location.href = redirectTo;
 }
 
-site.initialize = function () {
-    $(document).on('click', "main #navbarDropdownMenuLink", function (e) {
-        var dropdownMenuPointer = $(this).siblings(".dropdown-menu");
-        if (site.showed) {
-            dropdownMenuPointer.removeClass('stay-open')
-            dropdownMenuPointer.addClass('d-none')
-        } else {
-            dropdownMenuPointer.removeClass('d-none')
-            dropdownMenuPointer.addClass('stay-open')
+site.initialize = function (requestPath) {
+    var excludedUrlPathForMenuHighlighted = false;
+    site.excludedUrlPathForMenuHighlighted.forEach(function (elm) {
+        if (requestPath.toUpperCase().localeCompare(elm) == 0) {
+            excludedUrlPathForMenuHighlighted = true;
         }
-
-        site.showed = !(site.showed);
     });
 
-    $(document).on('click', "#side-navigation li:not('.dropdown')", function (e) {
-        site.highlightMenu(this);
-        site.unHighlightSiblingMenus(this);
-    });
+    if (excludedUrlPathForMenuHighlighted == false) {
+        var moduleAccessId = localStorage.getItem('moduleAccessId');
+        if (moduleAccessId) {
+            $(document).find(".c-link").each(function () {
+                if (moduleAccessId == $(this).data("moduleaccessid")) {
+                    var wrapper = null;
+                    if ($(this).hasClass('dropdown-item')) {
+                        var dropDownMenu = $(this).closest('.dropdown-menu');
+                        if (dropDownMenu.length > 0) {
+                            dropDownMenu.removeClass('d-none')
+                            dropDownMenu.addClass('stay-open')
+                        }
 
-    $(document).on('click', "#side-navigation .dropdown-item-wrapper", function (e) {
-        site.highlightMenu(this);
-        site.unHighlightSiblingMenus(this);
+                        wrapper = $(this).closest('.dropdown-item-wrapper');
 
-        $("#side-navigation li.dropdown").each(function () {
-            site.unHighlightSiblingMenus(this);
-        });
-    });
+                    } else {
+                        wrapper = $(this).closest('li');
+                    }
+                    site.highlightMenu(wrapper);
+                }
+            });
+        }
+    }
 }
