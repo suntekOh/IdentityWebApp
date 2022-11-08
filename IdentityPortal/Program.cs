@@ -15,6 +15,7 @@ using Business.EmailSender;
 using IdentityPortal.Helper;
 using DataAccess.Repositories;
 using IdentityPortal.Resources;
+using IdentityBusiness.Middleware;
 
 Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
@@ -83,8 +84,11 @@ try
 
     builder.Services.AddRazorPages(options =>
     {
-        options.Conventions.AllowAnonymousToFolder("/");
-        options.Conventions.AllowAnonymousToAreaFolder("Identity", "/Account");
+        options.Conventions
+        .AuthorizeFolder("/")
+        .AllowAnonymousToPage("/Index")
+        .AllowAnonymousToPage("/Privacy")
+        .AllowAnonymousToAreaFolder("Identity", "/Account");
     });
 
     builder.Services.AddSmtpSettings(builder.Configuration);
@@ -130,7 +134,9 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
-    
+
+    app.UseNotFoundErrorRedireciton();
+
     app.MapRazorPages();
     app.MapControllerRoute(
         name: "default",
